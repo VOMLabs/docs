@@ -1,0 +1,147 @@
+---
+title: How to Install a Minecraft Plugin
+description: Learn how to install any Minecraft server plugin
+---
+
+# How to Install a Minecraft Plugin
+
+This guide shows you how to install **any** Minecraft server plugin. While we'll use [CraftGuard](https://modrinth.com/plugin/craftguard) as a practical example, these steps work for **every other Minecraft plugin** — as long as it supports the server software you're running (Paper, Purpur, Folia, Spigot, etc.).
+
+## What is a Minecraft Plugin?
+
+Plugins extend your server's functionality by adding new features, commands, and gameplay modifications. They run on supported server platforms like Paper, Purpur, or Spigot.
+
+## Requirements
+
+Before installing plugins, ensure your server meets these requirements:
+
+- **Server Platform**: Paper, Purpur, Folia, or another compatible server JAR
+- **Java**: Version 17+ (some plugins require Java 21+)
+
+<Callout type="info">
+Most modern plugins require Paper or its forks (Purpur, Folia) for best compatibility.
+</Callout>
+
+## Installation Steps
+
+### Step 1: Download the Plugin
+
+Plugins can be downloaded from:
+
+- [Modrinth](https://modrinth.com/plugins) — Most popular plugin repository
+- [Spigotmc](https://spigotmc.org/resources/) — Alternative marketplace
+- GitHub — For open-source plugins
+
+**Example**: Download CraftGuard from [modrinth.com/plugin/craftguard](https://modrinth.com/plugin/craftguard)
+
+### Step 2: Install to Your Server
+
+1. Stop your server cleanly using `/stop` or the stop button
+2. Navigate to your server's `plugins/` folder
+3. Drop the `.jar` file into the folder
+4. Start your server
+
+```bash
+# Example folder structure
+/server
+  ├── craftguard-2.2.0.jar    # Plugin file
+  ├── plugins/                 # Put .jar files here
+  ├── server.jar
+  └── spigot.yml
+```
+
+### Step 3: Verify Installation
+
+Check the console output when your server starts. Most plugins print a message like:
+
+```
+[Server]/[INFO] [CraftGuard] Enabling CraftGuard v2.2.0
+```
+
+You can also run `/plugins` in-game to see loaded plugins.
+
+## Configuration
+
+After first launch, plugins typically create a config folder with settings.
+
+**Example for CraftGuard:**
+
+```
+plugins/
+└── CraftGuard/
+    ├── config.yml      # Main settings
+    ├── locales/        # Language files
+    └── worlds.yml      # World data
+```
+
+### Editing Configs
+
+1. Stop the server
+2. Open the config file in a text editor
+3. Make your changes
+4. Save and restart, or use `/reload` (if the plugin supports it)
+
+```yaml
+# Example: config.yml
+settings:
+  enabled: true
+  language: en-us
+  default-state: true
+```
+
+## Getting Started
+
+Most plugins provide commands for configuration. Check their documentation.
+
+**Example commands for CraftGuard:**
+
+```bash
+# Open management GUI
+/cg
+
+# Disable crafting in lobby world
+/cg lobby crafting off
+
+# Reload configuration
+/cg reload
+
+# Get help
+/cg help
+```
+
+## Troubleshooting
+
+### Plugin Won't Load
+
+- **Wrong version**: Ensure the plugin supports your server version
+- **Missing dependencies**: Some plugins require others (e.g., Vault, PlaceholderAPI)
+- **Invalid JAR**: Re-download from a trusted source
+
+### Errors in Console
+
+Check the plugin's documentation for known issues or enable debug mode in config.
+
+### Need to Remove a Plugin
+
+1. Stop the server
+2. Delete the `.jar` file from `plugins/`
+3. Optionally delete the config folder
+4. Restart
+
+## Next Steps
+
+- Explore your plugin's configuration options
+- Set up permissions for players
+- Check for optional dependencies that add more features
+
+## Example: CraftGuard Features
+
+As an example, CraftGuard provides these capabilities:
+
+| Category | Features |
+|----------|----------|
+| Core | Crafting, Nether Portal, End Portal, Lockdown |
+| Workstations | Anvil, Furnace, Blast Furnace, Smoker, Enchanting, Brewing, Smithing |
+| Containers | Chest, Trapped Chest, Ender Chest, Shulker Box |
+
+Learn more at [modrinth.com/plugin/craftguard](https://modrinth.com/plugin/craftguard).
