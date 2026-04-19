@@ -2,6 +2,20 @@
 @import 'fumadocs-ui/css/neutral.css';
 @import 'fumadocs-ui/css/preset.css';
 
+@theme {
+  --color-bg: #010101;
+}
+
+.dark {
+  --color-fd-background: #010101;
+  --color-fd-muted: #000000;
+  --color-fd-popover: #010101;
+  --color-fd-card: #010101;
+  --color-fd-secondary: #000000;
+  --color-fd-accent: #0a0a0a;
+  --color-fd-overlay: rgba(0, 0, 0, 0.3);
+}
+
 html {
   scrollbar-gutter: stable;
 }
