@@ -1,37 +1,64 @@
 # VOMLabs Documentation
 
-This is a Next.js application generated with
-[Create Fumadocs](https://github.com/fuma-nama/fumadocs).
+Official documentation site for [VOMLabs](https://vomlabs.com). Built with [FumaDocs](https://fumadocs.dev) and [Next.js](https://nextjs.org).
 
-Run development server:
+## Features
+
+- **Documentation Site** - Full-featured docs with search, versioning, and MDX support
+- **AI Chat Assistant** - Built-in AI chatbot that can answer questions about the documentation using:
+  - Google Gemini
+  - OpenRouter
+  - OpenAI
+- **Multi-Provider Support** - Fallback API keys when quota is exceeded
+- **Dark Mode** - Optimized dark theme (#010101 background)
+- **Responsive Design** - Works on desktop and mobile
+
+## Getting Started
+
+### Prerequisites
+
+- Node.js 18+
+- Bun (recommended) or npm/pnpm
+
+### Installation
 
 ```bash
-npm run dev
-# or
-pnpm dev
-# or
-yarn dev
+bun install
 ```
 
-Open http://localhost:3000 with your browser to see the result.
+### Development
 
-## Explore
+```bash
+bun run dev
+```
 
-In the project, you can see:
+Open http://localhost:3000 to view the documentation.
 
-- `lib/source.ts`: Code for content source adapter, [`loader()`](https://fumadocs.dev/docs/headless/source-api) provides the interface to access your content.
-- `lib/layout.shared.tsx`: Shared options for layouts, optional but preferred to keep.
+### Build for Production
 
-| Route                     | Description                                            |
-| ------------------------- | ------------------------------------------------------ |
-| `app/(home)`              | The route group for your landing page and other pages. |
-| `app/docs`                | The documentation layout and pages.                    |
-| `app/api/search/route.ts` | The Route Handler for search.                          |
+```bash
+bun run build
+```
 
-### Fumadocs MDX
+## Configuration
 
-A `source.config.ts` config file has been included, you can customise different options like frontmatter schema.
+### Environment Variables
 
+Create a `.env.local` file in the root directory:
+
+```bash
+# OpenRouter - comma-separated for fallback keys
+OPENROUTER_API_KEY=key1,key2,key3
+OPENROUTER_MODEL=anthropic/claude-3.5-sonnet
+
+# Google Gemini - comma-separated for fallback keys
+GOOGLE_API_KEY=key1,key2,key3
+GOOGLE_MODEL=gemini-2.5-flash
+
+# OpenAI - comma-separated for fallback keys
+OPENAI_API_KEY=key1,key2,key3
+OPENAI_MODEL=gpt-4o-mini
+```
 Read the [Introduction](https://fumadocs.dev/docs/mdx) for further details.
 
 ## Learn More
