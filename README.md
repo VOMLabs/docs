@@ -59,14 +59,49 @@ GOOGLE_MODEL=gemini-2.5-flash
 OPENAI_API_KEY=key1,key2,key3
 OPENAI_MODEL=gpt-4o-mini
 ```
-Read the [Introduction](https://fumadocs.dev/docs/mdx) for further details.
 
-## Learn More
+The system automatically:
+- Detects which providers have API keys configured
+- Shows only configured providers in the dropdown
+- Falls back to the next key if quota is exceeded
+- Shows a single provider name (not dropdown) when only one is available
 
-To learn more about Next.js and Fumadocs, take a look at the following
-resources:
+### AI Feature
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js
-  features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
-- [Fumadocs](https://fumadocs.dev) - learn about Fumadocs
+The AI chat feature is automatically enabled when at least one provider has an API key configured.
+
+To disable AI completely, ensure all API key variables are empty.
+
+## Project Structure
+
+```
+docs/
+├── app/                    # Next.js App Router
+│   ├── api/               # API routes
+│   │   └── chat/          # AI chat endpoint
+│   ├── docs/             # Documentation pages
+│   └── layout.tsx        # Root layout
+├── components/
+│   ├── ai/              # AI search component
+│   ├── ui/              # UI components (dropdown, button)
+│   └── markdown.tsx     # Markdown renderer
+├── content/
+│   └── docs/            # MDX documentation files
+├── lib/
+│   ├── shared.ts        # Shared config (providers, etc.)
+│   └── source.ts        # Content source
+├── source.config.ts     # FumaDocs config
+└── package.json       # Dependencies
+```
+
+## Tech Stack
+
+- **Framework**: Next.js 16
+- **Docs**: FumaDocs 16
+- **AI**: Vercel AI SDK 6
+- **Styling**: Tailwind CSS 4
+- **Icons**: Lucide React
+
+## License
+
+Proprietary - All rights reserved by VOMLabs
