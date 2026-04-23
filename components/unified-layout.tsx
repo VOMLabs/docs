@@ -73,15 +73,15 @@ export function UnifiedLayout(props: {
               <div className="mx-auto max-w-2xl text-center">
                 <div className="inline-flex items-center gap-2 rounded-full border bg-background px-3 py-1 text-xs text-fd-muted-foreground">
                   <span className="inline-flex size-1.5 rounded-full bg-fd-primary" />
-                  Open-source. Community-driven.
+                  Tools for everyone.
                 </div>
                 <h1 className="mt-6 text-4xl md:text-6xl font-semibold tracking-tight">
-                  We build for our servers, then share with everyone.
+                  We build tools for ourselves, then share them.
                 </h1>
                 <p className="mt-5 text-base md:text-lg text-fd-muted-foreground">
-                  VOMLabs creates plugins, tools, and projects for our own infrastructure,
-                  then publishes them open-source. Find documentation, installation guides,
-                  and real-world examples here.
+                  VOMLabs creates tools for our own projects. Some are public from day one,
+                  some start internal-only, and some we open-source later. Find documentation,
+                  guides, and examples here.
                 </p>
 
                 <div className="mt-8 flex flex-col sm:flex-row items-center justify-center gap-3">
@@ -104,21 +104,21 @@ export function UnifiedLayout(props: {
 
               <div className="mt-12 grid gap-4 md:grid-cols-3">
                 <div className="rounded-xl border bg-background p-5">
+                  <div className="text-sm font-medium">Internal first</div>
+                  <div className="mt-2 text-sm text-fd-muted-foreground">
+                    Built for our own projects before anything else.
+                  </div>
+                </div>
+                <div className="rounded-xl border bg-background p-5">
+                  <div className="text-sm font-medium">Sometimes public</div>
+                  <div className="mt-2 text-sm text-fd-muted-foreground">
+                    We share tools when they are ready for others.
+                  </div>
+                </div>
+                <div className="rounded-xl border bg-background p-5">
                   <div className="text-sm font-medium">Open-source</div>
                   <div className="mt-2 text-sm text-fd-muted-foreground">
-                    Free to use and modify under permissive licenses.
-                  </div>
-                </div>
-                <div className="rounded-xl border bg-background p-5">
-                  <div className="text-sm font-medium">Battle-tested</div>
-                  <div className="mt-2 text-sm text-fd-muted-foreground">
-                    Running on our live servers before release.
-                  </div>
-                </div>
-                <div className="rounded-xl border bg-background p-5">
-                  <div className="text-sm font-medium">Well-documented</div>
-                  <div className="mt-2 text-sm text-fd-muted-foreground">
-                    Step-by-step guides to get you started fast.
+                    Free to use, modify, and share.
                   </div>
                 </div>
               </div>
@@ -128,54 +128,54 @@ export function UnifiedLayout(props: {
                   <div className="md:col-span-5 border-b md:border-b-0 md:border-r p-6">
                     <div className="text-sm font-medium">Quick start</div>
                     <div className="mt-2 text-sm text-fd-muted-foreground">
-                      Get any project running in minutes.
+                      Find a tool and get it running.
                     </div>
                     <div className="mt-4 flex flex-col gap-2 text-sm">
                       <Link
                         href="/docs"
                         className="rounded-md border px-3 py-2 hover:bg-fd-muted transition-colors"
                       >
-                        1. Find a project
+                        1. Find a tool
                       </Link>
                       <Link
                         href="/docs"
                         className="rounded-md border px-3 py-2 hover:bg-fd-muted transition-colors"
                       >
-                        2. Follow setup guide
+                        2. Read the docs
                       </Link>
                       <Link
                         href="/docs"
                         className="rounded-md border px-3 py-2 hover:bg-fd-muted transition-colors"
                       >
-                        3. Deploy to your server
+                        3. Deploy it yourself
                       </Link>
                     </div>
                   </div>
                   <div className="md:col-span-7 p-6">
-                    <div className="text-sm font-medium">What we offer</div>
+                    <div className="text-sm font-medium">Types of tools</div>
                     <div className="mt-2 grid gap-3 sm:grid-cols-2 text-sm">
                       <div className="rounded-lg border p-4">
                         <div className="font-medium">Plugins</div>
                         <div className="mt-1 text-fd-muted-foreground">
-                          Security, gameplay, and utility tools.
+                          Minecraft server plugins and extensions.
                         </div>
                       </div>
                       <div className="rounded-lg border p-4">
-                        <div className="font-medium">Tools</div>
+                        <div className="font-medium">Applications</div>
                         <div className="mt-1 text-fd-muted-foreground">
-                          Developer utilities and APIs.
+                          Standalone tools and applications.
+                        </div>
+                      </div>
+                      <div className="rounded-lg border p-4">
+                        <div className="font-medium">Libraries</div>
+                        <div className="mt-1 text-fd-muted-foreground">
+                          Reusable code and APIs.
                         </div>
                       </div>
                       <div className="rounded-lg border p-4">
                         <div className="font-medium">Infrastructure</div>
                         <div className="mt-1 text-fd-muted-foreground">
                           Backend services and integrations.
-                        </div>
-                      </div>
-                      <div className="rounded-lg border p-4">
-                        <div className="font-medium">Support</div>
-                        <div className="mt-1 text-fd-muted-foreground">
-                          Community Discord for help.
                         </div>
                       </div>
                     </div>
