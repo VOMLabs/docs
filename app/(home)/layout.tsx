@@ -1,6 +1,5 @@
-import { HomeLayout } from "fumadocs-ui/layouts/home";
-import { baseOptions } from "@/lib/layout.shared";
 import type { Metadata } from "next";
+import { UnifiedLayout } from "@/components/unified-layout";
 
 export const metadata: Metadata = {
   title: "VOMLabs Documentation",
@@ -8,5 +7,5 @@ export const metadata: Metadata = {
 };
 
 export default function Layout({ children }: LayoutProps<"/">) {
-  return <HomeLayout {...baseOptions()}>{children}</HomeLayout>;
+  return <UnifiedLayout mode="home">{children}</UnifiedLayout>;
 }

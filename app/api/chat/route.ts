@@ -79,11 +79,18 @@ async function createSearchServer() {
     source.getPages().map(async (page) => {
       if (!("getText" in page.data)) return null;
 
+      const data = page.data as unknown as {
+        getText?: (type: "raw" | "processed") => Promise<string>;
+        title: string;
+        description: string;
+      };
+      if (typeof data.getText !== "function") return null;
+
       return {
-        title: page.data.title,
-        description: page.data.description,
+        title: data.title,
+        description: data.description,
         url: page.url,
-        content: await page.data.getText("processed"),
+        content: await data.getText("processed"),
       } as CustomDocument;
     }),
   );
@@ -190,8 +197,6 @@ export async function GET() {
   return Response.json({ providers });
 }
 
-const MAX_FALLBACK_RETRIES = 3;
-
 async function getModelWithFallback(providerType: AIProvider, apiKeys: string[]) {
   const config = providerConfigs[providerType];
   const modelId = config.model;
@@ -240,7 +245,7 @@ async function getModelWithFallback(providerType: AIProvider, apiKeys: string[])
   throw new Error(`No valid API keys for ${providerType}`);
 }
 
-export async function POST(req: Request, ctx: RouteContext<"/api/chat">) {
+export async function POST(req: Request, _ctx: RouteContext<"/api/chat">) {
   const reqJson = await req.json();
   const providerType = (reqJson.provider as AIProvider) ?? "google";
 

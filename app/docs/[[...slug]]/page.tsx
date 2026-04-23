@@ -12,20 +12,29 @@ import { getMDXComponents } from "@/components/mdx";
 import type { Metadata } from "next";
 import { createRelativeLink } from "fumadocs-ui/mdx";
 import { gitConfig } from "@/lib/shared";
+import type { ReactElement } from "react";
 
 export default async function Page(props: PageProps<"/docs/[[...slug]]">) {
   const params = await props.params;
   const page = source.getPage(params.slug);
   if (!page) notFound();
 
-  const MDX = page.data.body;
+  const data = page.data as unknown as {
+    title: string;
+    description?: string;
+    body: (props: { components: Record<string, unknown> }) => ReactElement;
+    toc?: unknown;
+    full?: boolean;
+  };
+
+  const MDX = data.body;
   const markdownUrl = getPageMarkdownUrl(page).url;
 
   return (
-    <DocsPage toc={page.data.toc} full={page.data.full}>
-      <DocsTitle>{page.data.title}</DocsTitle>
+    <DocsPage toc={data.toc as never} full={data.full}>
+      <DocsTitle>{data.title}</DocsTitle>
       <DocsDescription className="mb-0">
-        {page.data.description}
+        {data.description}
       </DocsDescription>
       <div className="flex flex-row gap-2 items-center border-b pb-6">
         <MarkdownCopyButton markdownUrl={markdownUrl} />
@@ -56,10 +65,14 @@ export async function generateMetadata(
   const params = await props.params;
   const page = source.getPage(params.slug);
   if (!page) notFound();
+  const data = page.data as unknown as {
+    title: string;
+    description?: string;
+  };
 
   return {
-    title: page.data.title,
-    description: page.data.description,
+    title: data.title,
+    description: data.description,
     openGraph: {
       images: getPageImage(page).url,
     },
