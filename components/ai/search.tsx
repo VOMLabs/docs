@@ -1,4 +1,5 @@
-'use client';
+"use client";
+
 import {
   type ComponentProps,
   createContext,
@@ -10,37 +11,141 @@ import {
   useMemo,
   useRef,
   useState,
-} from 'react';
-import { Loader2, MessageCircleIcon, RefreshCw, SearchIcon, Send, X } from 'lucide-react';
-import { cn } from '../../lib/cn';
-import { buttonVariants } from '../ui/button';
-import { useChat, type UseChatHelpers } from '@ai-sdk/react';
-import { DefaultChatTransport, type Tool, type UIToolInvocation } from 'ai';
-import { Markdown } from '../markdown';
-import { Presence } from '@radix-ui/react-presence';
-import type { ChatUIMessage, SearchTool } from '../../app/api/chat/route';
+} from "react";
+import {
+  Loader2,
+  MessageCircleIcon,
+  RefreshCw,
+  SearchIcon,
+  Send,
+  X,
+  Settings2,
+  ChevronDownIcon,
+  CheckIcon,
+} from "lucide-react";
+import {
+  DropdownMenu,
+  DropdownMenuTrigger,
+  DropdownMenuContent,
+  DropdownMenuRadioItem,
+  DropdownMenuSeparator,
+} from "../ui/dropdown-menu";
+import { cn } from "../../lib/cn";
+import { buttonVariants } from "../ui/button";
+import { useChat, type UseChatHelpers } from "@ai-sdk/react";
+import { DefaultChatTransport, type Tool, type UIToolInvocation } from "ai";
+import { Markdown } from "../markdown";
+import { Presence } from "@radix-ui/react-presence";
+import type {
+  ChatUIMessage,
+  SearchTool,
+  AIProvider,
+} from "../../app/api/chat/route";
+import { availableProviders, enableAI } from "../../lib/shared";
 
 const Context = createContext<{
   open: boolean;
   setOpen: (open: boolean) => void;
   chat: UseChatHelpers<ChatUIMessage>;
+  provider: string;
+  setProvider: (provider: string) => void;
+  available: string[];
 } | null>(null);
 
-export function AISearchPanelHeader({ className, ...props }: ComponentProps<'div'>) {
-  const { setOpen } = useAISearchContext();
+export function AISearchPanelHeader({
+  className,
+  ...props
+}: ComponentProps<"div">) {
+  const { setOpen, provider, setProvider, available } = useAISearchContext();
+
+  if (available.length === 0) {
+    return (
+      <div
+        className={cn(
+          "sticky top-0 flex items-start gap-2 border rounded-xl bg-fd-secondary text-fd-secondary-foreground shadow-sm",
+          className,
+        )}
+        {...props}
+      >
+        <div className="px-3 py-2">
+          <p className="text-sm font-medium">AI Chat</p>
+          <p className="text-xs text-fd-muted-foreground mt-1">
+            No API keys configured. Contact VOMLabs to enable AI.
+          </p>
+        </div>
+        <button
+          aria-label="Close"
+          tabIndex={-1}
+          className={cn(
+            buttonVariants({
+              size: "icon-sm",
+              color: "ghost",
+              className: "text-fd-muted-foreground rounded-full",
+            }),
+          )}
+          onClick={() => setOpen(false)}
+        >
+          <X />
+        </button>
+      </div>
+    );
+  }
+
+  if (!available.includes(provider)) {
+    setProvider(available[0]);
+  }
+
+  const providerNames: Record<string, string> = {
+    openrouter: "OpenRouter",
+    google: "Gemini",
+    openai: "OpenAI",
+  };
+
+  const providers = [
+    { id: "google", name: "Gemini" },
+    { id: "openrouter", name: "OpenRouter" },
+    { id: "openai", name: "OpenAI" },
+  ].filter((p) => available.includes(p.id));
+
+  const currentName = providerNames[provider] || "Select Provider";
 
   return (
     <div
       className={cn(
-        'sticky top-0 flex items-start gap-2 border rounded-xl bg-fd-secondary text-fd-secondary-foreground shadow-sm',
+        "sticky top-0 flex items-start gap-2 border rounded-xl bg-fd-secondary text-fd-secondary-foreground shadow-sm",
         className,
       )}
       {...props}
     >
       <div className="px-3 py-2 flex-1">
         <p className="text-sm font-medium mb-2">AI Chat</p>
-        <p className="text-xs text-fd-muted-foreground">
-          AI can be inaccurate, please verify the answers.
+        {providers.length > 1 ? (
+          <DropdownMenu>
+            <DropdownMenuTrigger asChild>
+              <button className="flex items-center gap-1.5 text-xs border bg-transparent px-2 py-1 rounded text-fd-muted-foreground hover:bg-fd-accent">
+                {currentName}
+                <ChevronDownIcon className="size-3" />
+              </button>
+            </DropdownMenuTrigger>
+            <DropdownMenuContent align="start">
+              {providers.map((p) => (
+                <DropdownMenuRadioItem
+                  key={p.id}
+                  value={p.id}
+                  onSelect={() => {
+                    setProvider(p.id);
+                  }}
+                >
+                  {p.name}
+                </DropdownMenuRadioItem>
+              ))}
+            </DropdownMenuContent>
+          </DropdownMenu>
+        ) : (
+          <p className="text-xs text-fd-muted-foreground">{currentName}</p>
+        )}
+        <p className="text-xs text-fd-muted-foreground mt-1">
+          AI can be very inaccurate, please verify the answers.
         </p>
       </div>
 
@@ -49,9 +154,9 @@ export function AISearchPanelHeader({ className, ...props }: ComponentProps<'div
         tabIndex={-1}
         className={cn(
           buttonVariants({
-            size: 'icon-sm',
-            color: 'ghost',
-            className: 'text-fd-muted-foreground rounded-full',
+            size: "icon-sm",
+            color: "ghost",
+            className: "text-fd-muted-foreground rounded-full",
           }),
         )}
         onClick={() => setOpen(false)}
@@ -64,20 +169,20 @@ export function AISearchPanelHeader({ className, ...props }: ComponentProps<'div
 
 export function AISearchInputActions() {
   const { messages, status, setMessages, regenerate } = useChatContext();
-  const isLoading = status === 'streaming';
+  const isLoading = status === "streaming";
 
   if (messages.length === 0) return null;
 
   return (
     <>
-      {!isLoading && messages.at(-1)?.role === 'assistant' && (
-        <button
+      {!isLoading && messages.at(-1)?.role === "assistant" && (
+      <button
           type="button"
           className={cn(
             buttonVariants({
-              color: 'secondary',
-              size: 'sm',
-              className: 'rounded-full gap-1.5',
+              color: "secondary",
+              size: "sm",
+              className: "rounded-full gap-1.5",
             }),
           )}
           onClick={() => regenerate()}
@@ -103,11 +208,13 @@ export function AISearchInputActions() {
   );
 }
 
-const StorageKeyInput = '__ai_search_input';
-export function AISearchInput(props: ComponentProps<'form'>) {
+const StorageKeyInput = "__ai_search_input";
+export function AISearchInput(props: ComponentProps<"form">) {
   const { status, sendMessage, stop } = useChatContext();
-  const [input, setInput] = useState(() => localStorage.getItem(StorageKeyInput) ?? '');
-  const isLoading = status === 'streaming' || status === 'submitted';
+    const [input, setInput] = useState(
+    () => localStorage.getItem(StorageKeyInput) ?? "",
+  );
+  const isLoading = status === "streaming" || status === "submitted";
   const onStart = (e?: SyntheticEvent) => {
     e?.preventDefault();
     const message = input.trim();
@@ -137,7 +244,11 @@ export function AISearchInput(props: ComponentProps<'form'>) {
   }, [isLoading]);
 
   return (
-    <form {...props} className={cn('flex items-start pe-2', props.className)} onSubmit={onStart}>
+    <form
+      {...props}
+      className={cn("flex items-start pe-2", props.className)}
+      onSubmit={onStart}
+    >
       <Input
         value={input}
         placeholder={isLoading ? 'AI is answering...' : 'Ask a question'}
@@ -221,8 +332,11 @@ function List(props: Omit<ComponentProps<'div'>, 'dir'>) {
     <div
       ref={containerRef}
       {...props}
-      className={cn('fd-scroll-container overflow-y-auto min-w-0 flex flex-col', props.className)}
-    >
+      className={cn(
+        "fd-scroll-container overflow-y-auto min-w-0 flex flex-col",
+        props.className,
+      )}
+      >
       {props.children}
     </div>
   );
@@ -251,7 +365,7 @@ function Input(props: ComponentProps<'textarea'>) {
 
 const roleName: Record<string, string> = {
   user: 'you',
-  assistant: 'fumadocs',
+  assistant: 'vomdocs',
 };
 
 function Message({ message, ...props }: { message: ChatUIMessage } & ComponentProps<'div'>) {
@@ -308,15 +422,38 @@ function Message({ message, ...props }: { message: ChatUIMessage } & ComponentPr
 
 export function AISearch({ children }: { children: ReactNode }) {
   const [open, setOpen] = useState(false);
+  const [provider, setProvider] = useState<string>("google");
+  const [available, setAvailable] = useState<string[]>([]);
+
+  useEffect(() => {
+    fetch("/api/chat", { method: "GET" })
+      .then((res) => res.json())
+      .then((data: { providers: string[] }) => {
+        setAvailable(data.providers);
+        if (data.providers.length > 0 && !data.providers.includes(provider)) {
+          setProvider(data.providers[0]);
+        }
+      })
+      .catch(() => setAvailable([]));
+  }, []);
+
   const chat = useChat<ChatUIMessage>({
     id: 'search',
     transport: new DefaultChatTransport({
-      api: '/api/chat',
+      api: "/api/chat",
+      body: { provider },
     }),
   });
 
   return (
-    <Context value={useMemo(() => ({ chat, open, setOpen }), [chat, open])}>{children}</Context>
+    <Context
+      value={useMemo(
+        () => ({ chat, open, setOpen, provider, setProvider, available }),
+        [chat, open, provider, available],
+      )}
+    >
+      {children}
+    </Context>
   );
 }
 
@@ -429,6 +566,22 @@ export function AISearchPanelList({ className, style, ...props }: ComponentProps
             <div className="p-2 bg-fd-secondary text-fd-secondary-foreground border rounded-lg">
               <p className="text-xs text-fd-muted-foreground mb-1">
                 Request Failed: {chat.error.name}
+              </p>
+              <p className="text-xs text-fd-muted-foreground mt-2">
+                Contact{" "}
+                <a
+                  href="https://dc.vomlabs.com"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="underline"
+                >
+                  Discord
+                </a>{" "}
+                or{" "}
+                <a href="mailto:support@vomlabs.com" className="underline">
+                  support@vomlabs.com
+                </a>{" "}
+                for help.
               </p>
               <p className="text-sm">{chat.error.message}</p>
             </div>
