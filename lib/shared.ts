@@ -3,9 +3,17 @@ export const docsRoute = "/docs";
 export const docsImageRoute = "/og/docs";
 export const docsContentRoute = "/llms.mdx/docs";
 
-export const enableAI = false; // Toggle to enable/disable AI search
+const hasOpenRouter = !!process.env.OPENROUTER_API_KEY;
+const hasGoogle = !!process.env.GOOGLE_API_KEY;
+const hasOpenAI = !!process.env.OPENAI_API_KEY;
 
-// fill this with your actual GitHub info, for example:
+export const availableProviders: string[] = [];
+
+if (hasOpenRouter) availableProviders.push("openrouter");
+if (hasGoogle) availableProviders.push("google");
+if (hasOpenAI) availableProviders.push("openai");
+
+export const enableAI = availableProviders.length > 0;
 export const gitConfig = {
   user: "VOMLabs",
   repo: "docs",
