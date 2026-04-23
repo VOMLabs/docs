@@ -73,15 +73,15 @@ export function UnifiedLayout(props: {
               <div className="mx-auto max-w-2xl text-center">
                 <div className="inline-flex items-center gap-2 rounded-full border bg-background px-3 py-1 text-xs text-fd-muted-foreground">
                   <span className="inline-flex size-1.5 rounded-full bg-fd-primary" />
-                  Minimal docs. Maximum clarity.
+                  Open-source. Community-driven.
                 </div>
                 <h1 className="mt-6 text-4xl md:text-6xl font-semibold tracking-tight">
-                  Ship plugins faster with clean, practical documentation.
+                  We build for our servers, then share with everyone.
                 </h1>
                 <p className="mt-5 text-base md:text-lg text-fd-muted-foreground">
-                  Install guides, configuration references, and real
-                  server-ready examples—organized with a minimalist,
-                  border-forward UI.
+                  VOMLabs creates plugins, tools, and projects for our own infrastructure,
+                  then publishes them open-source. Find documentation, installation guides,
+                  and real-world examples here.
                 </p>
 
                 <div className="mt-8 flex flex-col sm:flex-row items-center justify-center gap-3">
@@ -104,26 +104,21 @@ export function UnifiedLayout(props: {
 
               <div className="mt-12 grid gap-4 md:grid-cols-3">
                 <div className="rounded-xl border bg-background p-5">
-                  <div className="text-sm font-medium">Fast onboarding</div>
+                  <div className="text-sm font-medium">Open-source</div>
                   <div className="mt-2 text-sm text-fd-muted-foreground">
-                    Get to a working server setup quickly with step-by-step
-                    guides and copy-ready snippets.
+                    Free to use and modify under permissive licenses.
                   </div>
                 </div>
                 <div className="rounded-xl border bg-background p-5">
-                  <div className="text-sm font-medium">Nested navigation</div>
+                  <div className="text-sm font-medium">Battle-tested</div>
                   <div className="mt-2 text-sm text-fd-muted-foreground">
-                    Multi-level docs navigation with a sticky sidebar for
-                    scanning and jumping between topics.
+                    Running on our live servers before release.
                   </div>
                 </div>
                 <div className="rounded-xl border bg-background p-5">
-                  <div className="text-sm font-medium">
-                    Minimal, border-heavy UI
-                  </div>
+                  <div className="text-sm font-medium">Well-documented</div>
                   <div className="mt-2 text-sm text-fd-muted-foreground">
-                    A clean Fumadocs-inspired aesthetic that prioritizes content
-                    density and legibility.
+                    Step-by-step guides to get you started fast.
                   </div>
                 </div>
               </div>
@@ -131,57 +126,56 @@ export function UnifiedLayout(props: {
               <div className="mt-10 rounded-2xl border bg-background overflow-hidden">
                 <div className="grid md:grid-cols-12">
                   <div className="md:col-span-5 border-b md:border-b-0 md:border-r p-6">
-                    <div className="text-sm font-medium">Recommended path</div>
+                    <div className="text-sm font-medium">Quick start</div>
                     <div className="mt-2 text-sm text-fd-muted-foreground">
-                      Start with installation, then move into configuration and
-                      advanced usage.
+                      Get any project running in minutes.
                     </div>
                     <div className="mt-4 flex flex-col gap-2 text-sm">
                       <Link
                         href="/docs"
                         className="rounded-md border px-3 py-2 hover:bg-fd-muted transition-colors"
                       >
-                        1. Install the plugin
+                        1. Find a project
                       </Link>
                       <Link
                         href="/docs"
                         className="rounded-md border px-3 py-2 hover:bg-fd-muted transition-colors"
                       >
-                        2. Configure your server
+                        2. Follow setup guide
                       </Link>
                       <Link
                         href="/docs"
                         className="rounded-md border px-3 py-2 hover:bg-fd-muted transition-colors"
                       >
-                        3. Deploy with confidence
+                        3. Deploy to your server
                       </Link>
                     </div>
                   </div>
                   <div className="md:col-span-7 p-6">
-                    <div className="text-sm font-medium">What you’ll find</div>
+                    <div className="text-sm font-medium">What we offer</div>
                     <div className="mt-2 grid gap-3 sm:grid-cols-2 text-sm">
                       <div className="rounded-lg border p-4">
-                        <div className="font-medium">Install</div>
+                        <div className="font-medium">Plugins</div>
                         <div className="mt-1 text-fd-muted-foreground">
-                          Verified steps and troubleshooting.
+                          Security, gameplay, and utility tools.
                         </div>
                       </div>
                       <div className="rounded-lg border p-4">
-                        <div className="font-medium">Configure</div>
+                        <div className="font-medium">Tools</div>
                         <div className="mt-1 text-fd-muted-foreground">
-                          Clear defaults, explained options.
+                          Developer utilities and APIs.
                         </div>
                       </div>
                       <div className="rounded-lg border p-4">
-                        <div className="font-medium">Operate</div>
+                        <div className="font-medium">Infrastructure</div>
                         <div className="mt-1 text-fd-muted-foreground">
-                          Maintenance, updates, best practices.
+                          Backend services and integrations.
                         </div>
                       </div>
                       <div className="rounded-lg border p-4">
-                        <div className="font-medium">Reference</div>
+                        <div className="font-medium">Support</div>
                         <div className="mt-1 text-fd-muted-foreground">
-                          Concise API/config lookups.
+                          Community Discord for help.
                         </div>
                       </div>
                     </div>
@@ -242,7 +236,7 @@ export function UnifiedLayout(props: {
             <div className="text-sm">
               <div className="font-medium">{appName}</div>
               <div className="text-fd-muted-foreground">
-                Clean docs UI built with Fumadocs + Next.js.
+                Everything, built for everyone.
               </div>
             </div>
             <div className="flex items-center gap-2 text-sm text-fd-muted-foreground">
