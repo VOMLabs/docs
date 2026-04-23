@@ -1,6 +1,8 @@
 import { createOpenRouter } from "@openrouter/ai-sdk-provider";
 import { createGoogleGenerativeAI } from "@ai-sdk/google";
 import { createOpenAI } from "@ai-sdk/openai";
+import { createAnthropic } from "@ai-sdk/anthropic";
+import { createDeepSeek } from "@ai-sdk/deepseek";
 import {
   convertToModelMessages,
   stepCountIs,
@@ -29,7 +31,7 @@ export type ChatUIMessage = UIMessage<
   }
 >;
 
-export type AIProvider = "openrouter" | "google" | "openai";
+export type AIProvider = "openrouter" | "google" | "openai" | "anthropic" | "deepseek" | "ollama" | "lmstudio";
 
 const providerConfigs: Record<AIProvider, { model: string; apiKey: string }> = {
   openrouter: {
@@ -43,6 +45,22 @@ const providerConfigs: Record<AIProvider, { model: string; apiKey: string }> = {
   openai: {
     model: process.env.OPENAI_MODEL ?? "gpt-4o-mini",
     apiKey: process.env.OPENAI_API_KEY ?? "",
+  },
+  anthropic: {
+    model: process.env.ANTHROPIC_MODEL ?? "claude-sonnet-4-20250514",
+    apiKey: process.env.ANTHROPIC_API_KEY ?? "",
+  },
+  deepseek: {
+    model: process.env.DEEPSEEK_MODEL ?? "deepseek-chat",
+    apiKey: process.env.DEEPSEEK_API_KEY ?? "",
+  },
+  ollama: {
+    model: process.env.OLLAMA_MODEL ?? "llama3",
+    apiKey: "",
+  },
+  lmstudio: {
+    model: process.env.LMSTUDIO_MODEL ?? "lmstudio-ai/llama-3.1-8b",
+    apiKey: "",
   },
 };
 
@@ -98,6 +116,16 @@ const openaiApiKeys = (process.env.OPENAI_API_KEY ?? "")
   .split(",")
   .map((k) => k.trim())
   .filter(Boolean);
+const anthropicApiKeys = (process.env.ANTHROPIC_API_KEY ?? "")
+  .split(",")
+  .map((k) => k.trim())
+  .filter(Boolean);
+const deepseekApiKeys = (process.env.DEEPSEEK_API_KEY ?? "")
+  .split(",")
+  .map((k) => k.trim())
+  .filter(Boolean);
+const ollamaBaseUrl = process.env.OLLAMA_BASE_URL ?? "http://localhost:11434";
+const lmstudioBaseUrl = process.env.LMSTUDIO_BASE_URL ?? "http://localhost:1234/v1";
 
 async function createOpenRouterWithFallback(index = 0) {
   return createOpenRouter({
@@ -116,6 +144,31 @@ async function createOpenAIWithFallback(index = 0) {
     apiKey: openaiApiKeys[index],
   });
 }
+async function createAnthropicWithFallback(index = 0) {
+  return createAnthropic({
+    apiKey: anthropicApiKeys[index],
+  });
+}
+
+async function createDeepSeekWithFallback(index = 0) {
+  return createDeepSeek({
+    apiKey: deepseekApiKeys[index],
+  });
+}
+
+function createOllama() {
+  return createOpenAI({
+    baseURL: `${ollamaBaseUrl}/api`,
+    apiKey: "ollama",
+  });
+}
+
+function createLMStudio() {
+  return createOpenAI({
+    baseURL: `${lmstudioBaseUrl}`,
+    apiKey: "lm-studio",
+  });
+}
 
 /** System prompt, you can update it to provide more specific information */
 const systemPrompt = [
@@ -130,6 +183,10 @@ export async function GET() {
   if (openrouterApiKeys.length > 0) providers.push("openrouter");
   if (googleApiKeys.length > 0) providers.push("google");
   if (openaiApiKeys.length > 0) providers.push("openai");
+  if (anthropicApiKeys.length > 0) providers.push("anthropic");
+  if (deepseekApiKeys.length > 0) providers.push("deepseek");
+  if (process.env.OLLAMA_MODEL) providers.push("ollama");
+  if (process.env.LMSTUDIO_MODEL) providers.push("lmstudio");
   return Response.json({ providers });
 }
 
@@ -139,23 +196,39 @@ async function getModelWithFallback(providerType: AIProvider, apiKeys: string[])
   const config = providerConfigs[providerType];
   const modelId = config.model;
 
+  const localProviders = ["ollama", "lmstudio"];
+  if (localProviders.includes(providerType)) {
+    try {
+      const model =
+        providerType === "ollama"
+          ? createOllama().chat(modelId)
+          : createLMStudio().chat(modelId);
+      return model;
+    } catch (err) {
+      console.log(`Local provider ${providerType} failed:`, err);
+      throw new Error(`${providerType} not available. Make sure it's running.`);
+    }
+  }
+
+  if (apiKeys.length === 0) {
+    throw new Error(`No API keys configured for ${providerType}`);
+  }
+  
   for (let i = 0; i < apiKeys.length; i++) {
     const apiKey = apiKeys[i];
     if (!apiKey) continue;
     
     try {
-      let model;
-      switch (providerType) {
-        case "openrouter":
-          model = (await createOpenRouterWithFallback(i)).chat(modelId);
-          break;
-        case "google":
-          model = (await createGoogleWithFallback(i)).chat(modelId);
-          break;
-        case "openai":
-          model = (await createOpenAIWithFallback(i)).chat(modelId);
-          break;
-      }
+      const model =
+        providerType === "openrouter"
+          ? (await createOpenRouterWithFallback(i)).chat(modelId)
+          : providerType === "google"
+            ? (await createGoogleWithFallback(i)).chat(modelId)
+            : providerType === "openai"
+              ? (await createOpenAIWithFallback(i)).chat(modelId)
+              : providerType === "anthropic"
+                ? (await createAnthropicWithFallback(i)).chat(modelId)
+                : (await createDeepSeekWithFallback(i)).chat(modelId);
       return model;
     } catch (err) {
       console.log(`API key ${i + 1} failed for ${providerType}, trying next...`);
@@ -171,13 +244,24 @@ export async function POST(req: Request, ctx: RouteContext<"/api/chat">) {
   const reqJson = await req.json();
   const providerType = (reqJson.provider as AIProvider) ?? "google";
 
-  const apiKeys =
-    providerType === "openrouter"
-      ? openrouterApiKeys
-      : providerType === "google"
-        ? googleApiKeys
-        : openaiApiKeys;
-
+  let apiKeys: string[] = [];
+  switch (providerType) {
+    case "openrouter":
+      apiKeys = openrouterApiKeys;
+      break;
+    case "google":
+      apiKeys = googleApiKeys;
+      break;
+    case "openai":
+      apiKeys = openaiApiKeys;
+      break;
+    case "anthropic":
+      apiKeys = anthropicApiKeys;
+      break;
+    case "deepseek":
+      apiKeys = deepseekApiKeys;
+      break;
+  }
   console.log("Provider:", providerType, "Available keys:", apiKeys.length);
 
     try {
