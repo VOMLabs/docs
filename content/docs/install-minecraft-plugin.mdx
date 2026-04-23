@@ -19,7 +19,8 @@ Before installing plugins, ensure your server meets these requirements:
 - **Java**: Version 17+ (some plugins require Java 21+)
 
 <Callout type="info">
-Most modern plugins require Paper or its forks (Purpur, Folia) for best compatibility.
+  Most modern plugins require Paper or its forks (Purpur, Folia) for best
+  compatibility.
 </Callout>
 
 ## Installation Steps
@@ -29,7 +30,7 @@ Most modern plugins require Paper or its forks (Purpur, Folia) for best compatib
 Plugins can be downloaded from:
 
 - [Modrinth](https://modrinth.com/plugins) — Most popular plugin repository
-- [Spigotmc](https://spigotmc.org/resources/) — Alternative marketplace
+- [SpigotMC](https://spigotmc.org/resources/) — Alternative marketplace
 - GitHub — For open-source plugins
 
 **Example**: Download CraftGuard from [modrinth.com/plugin/craftguard](https://modrinth.com/plugin/craftguard)
@@ -44,10 +45,10 @@ Plugins can be downloaded from:
 ```bash
 # Example folder structure
 /server
-  ├── craftguard-2.2.0.jar    # Plugin file
+  ├── craftguard-x.x.x.jar     # Plugin file
   ├── plugins/                 # Put .jar files here
-  ├── server.jar
-  └── spigot.yml
+  ├── paper.jar
+  └── server.properties
 ```
 
 ### Step 3: Verify Installation
@@ -55,10 +56,10 @@ Plugins can be downloaded from:
 Check the console output when your server starts. Most plugins print a message like:
 
 ```
-[Server]/[INFO] [CraftGuard] Enabling CraftGuard v2.2.0
+[Server]/[INFO] [CraftGuard] Enabling CraftGuard vX.X.X
 ```
 
-You can also run `/plugins` in-game to see loaded plugins.
+You can also run `/pl` in-game to see loaded plugins.
 
 ## Configuration
 
@@ -76,10 +77,9 @@ plugins/
 
 ### Editing Configs
 
-1. Stop the server
-2. Open the config file in a text editor
-3. Make your changes
-4. Save and restart, or use `/reload` (if the plugin supports it)
+1. Open the config file in a text editor
+2. Make your changes and save
+3. Reload the plugin or restart the server (depending on the plugin)
 
 ```yaml
 # Example: config.yml
@@ -138,10 +138,10 @@ Check the plugin's documentation for known issues or enable debug mode in config
 
 As an example, CraftGuard provides these capabilities:
 
-| Category | Features |
-|----------|----------|
-| Core | Crafting, Nether Portal, End Portal, Lockdown |
+| Category     | Features                                                             |
+| ------------ | -------------------------------------------------------------------- |
+| Core         | Crafting, Nether Portal, End Portal, Lockdown                        |
 | Workstations | Anvil, Furnace, Blast Furnace, Smoker, Enchanting, Brewing, Smithing |
-| Containers | Chest, Trapped Chest, Ender Chest, Shulker Box |
+| Containers   | Chest, Trapped Chest, Ender Chest, Shulker Box                       |
 
 Learn more at [modrinth.com/plugin/craftguard](https://modrinth.com/plugin/craftguard).
