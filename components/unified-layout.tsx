@@ -76,12 +76,12 @@ export function UnifiedLayout(props: {
                   Tools for everyone.
                 </div>
                 <h1 className="mt-6 text-4xl md:text-6xl font-semibold tracking-tight">
-                  We build tools for ourselves, then share them.
+                  Tools for the community.
                 </h1>
                 <p className="mt-5 text-base md:text-lg text-fd-muted-foreground">
-                  VOMLabs creates tools for our own projects. Some are public from day one,
-                  some start internal-only, and some we open-source later. Find documentation,
-                  guides, and examples here.
+                  We mostly build Minecraft plugins and tools for our own use,
+                  but also release things for the public! Even stuff we don’t use
+                  ourselves.
                 </p>
 
                 <div className="mt-8 flex flex-col sm:flex-row items-center justify-center gap-3">
@@ -104,21 +104,21 @@ export function UnifiedLayout(props: {
 
               <div className="mt-12 grid gap-4 md:grid-cols-3">
                 <div className="rounded-xl border bg-background p-5">
-                  <div className="text-sm font-medium">Internal first</div>
+                  <div className="text-sm font-medium">For us</div>
                   <div className="mt-2 text-sm text-fd-muted-foreground">
-                    Built for our own projects before anything else.
+                    Tools we needed for our own projects.
                   </div>
                 </div>
                 <div className="rounded-xl border bg-background p-5">
-                  <div className="text-sm font-medium">Sometimes public</div>
+                  <div className="text-sm font-medium">For everyone</div>
                   <div className="mt-2 text-sm text-fd-muted-foreground">
-                    We share tools when they are ready for others.
+                    Sometimes things made just for the public.
                   </div>
                 </div>
                 <div className="rounded-xl border bg-background p-5">
                   <div className="text-sm font-medium">Open-source</div>
                   <div className="mt-2 text-sm text-fd-muted-foreground">
-                    Free to use, modify, and share.
+                    Anyone can use or share them.
                   </div>
                 </div>
               </div>
@@ -126,56 +126,56 @@ export function UnifiedLayout(props: {
               <div className="mt-10 rounded-2xl border bg-background overflow-hidden">
                 <div className="grid md:grid-cols-12">
                   <div className="md:col-span-5 border-b md:border-b-0 md:border-r p-6">
-                    <div className="text-sm font-medium">Quick start</div>
+                    <div className="text-sm font-medium">How to start</div>
                     <div className="mt-2 text-sm text-fd-muted-foreground">
-                      Find a tool and get it running.
+                      Pick a tool and try it out.
                     </div>
                     <div className="mt-4 flex flex-col gap-2 text-sm">
                       <Link
                         href="/docs"
                         className="rounded-md border px-3 py-2 hover:bg-fd-muted transition-colors"
                       >
-                        1. Find a tool
+                        1. Pick a tool
                       </Link>
                       <Link
                         href="/docs"
                         className="rounded-md border px-3 py-2 hover:bg-fd-muted transition-colors"
                       >
-                        2. Read the docs
+                        2. Read docs
                       </Link>
                       <Link
                         href="/docs"
                         className="rounded-md border px-3 py-2 hover:bg-fd-muted transition-colors"
                       >
-                        3. Deploy it yourself
+                        3. Use it!
                       </Link>
                     </div>
                   </div>
                   <div className="md:col-span-7 p-6">
-                    <div className="text-sm font-medium">Types of tools</div>
+                    <div className="text-sm font-medium">What you'll find</div>
                     <div className="mt-2 grid gap-3 sm:grid-cols-2 text-sm">
                       <div className="rounded-lg border p-4">
-                        <div className="font-medium">Plugins</div>
+                        <div className="font-medium">Minecraft plugins</div>
                         <div className="mt-1 text-fd-muted-foreground">
-                          Minecraft server plugins and extensions.
+                          Server mods and enhancements.
                         </div>
                       </div>
                       <div className="rounded-lg border p-4">
-                        <div className="font-medium">Applications</div>
+                        <div className="font-medium">Apps & utilities</div>
                         <div className="mt-1 text-fd-muted-foreground">
-                          Standalone tools and applications.
+                          Small desktop and web tools.
                         </div>
                       </div>
                       <div className="rounded-lg border p-4">
                         <div className="font-medium">Libraries</div>
                         <div className="mt-1 text-fd-muted-foreground">
-                          Reusable code and APIs.
+                          Code you can use in your own projects.
                         </div>
                       </div>
                       <div className="rounded-lg border p-4">
-                        <div className="font-medium">Infrastructure</div>
+                        <div className="font-medium">Other stuff</div>
                         <div className="mt-1 text-fd-muted-foreground">
-                          Backend services and integrations.
+                          Anything the community might find handy.
                         </div>
                       </div>
                     </div>
@@ -212,7 +212,7 @@ export function UnifiedLayout(props: {
                         Documentation
                       </div>
                       <div className="text-xs text-fd-muted-foreground truncate">
-                        Border-heavy, minimalist layout with nested navigation.
+                        Find info for all our plugins and tools.
                       </div>
                     </div>
                     <Link
@@ -236,7 +236,7 @@ export function UnifiedLayout(props: {
             <div className="text-sm">
               <div className="font-medium">{appName}</div>
               <div className="text-fd-muted-foreground">
-                Everything, built for everyone.
+                Plugins and tools for anyone.
               </div>
             </div>
             <div className="flex items-center gap-2 text-sm text-fd-muted-foreground">

@@ -5,7 +5,7 @@ export default function HomePage() {
         <div className="md:col-span-4 border-b md:border-b-0 md:border-r p-6">
           <div className="text-sm font-medium">Quick links</div>
           <p className="mt-2 text-sm text-fd-muted-foreground">
-            Jump straight into the docs or browse the install guide.
+            Explore our docs or start with the install guide.
           </p>
           <div className="mt-4 grid gap-2 text-sm">
             <a
@@ -23,25 +23,10 @@ export default function HomePage() {
           </div>
         </div>
         <div className="md:col-span-8 p-6">
-          <div className="text-sm font-medium">Design goals</div>
+          <div className="text-sm font-medium">What we do</div>
           <p className="mt-2 text-sm text-fd-muted-foreground">
-            A unified shell with a shared header/footer, a marketing-heavy home
-            hero, and a functional docs grid with a sticky, nested sidebar.
+            We make and release tools like Minecraft plugins we use ourselves, but also share projects built just for the public.
           </p>
-          <div className="mt-4 grid gap-3 sm:grid-cols-2 text-sm">
-            <div className="rounded-lg border p-4">
-              <div className="font-medium">Seamless transitions</div>
-              <div className="mt-1 text-fd-muted-foreground">
-                Same header and footer across both modes.
-              </div>
-            </div>
-            <div className="rounded-lg border p-4">
-              <div className="font-medium">Minimalist, border-heavy</div>
-              <div className="mt-1 text-fd-muted-foreground">
-                Clean surfaces with strong layout structure.
-              </div>
-            </div>
-          </div>
         </div>
       </div>
     </div>
