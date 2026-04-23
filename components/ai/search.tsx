@@ -99,6 +99,10 @@ export function AISearchPanelHeader({
     openrouter: "OpenRouter",
     google: "Gemini",
     openai: "OpenAI",
+    anthropic: "Claude",
+    deepseek: "DeepSeek",
+    ollama: "Ollama",
+    lmstudio: "LM Studio",
   };
 
   const providers = [
