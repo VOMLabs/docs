@@ -17,6 +17,7 @@
     "@ai-sdk/google": "^3.0.64",
     "@ai-sdk/openai": "^3.0.53",
     "@ai-sdk/react": "^3.0.163",
+    "@heroicons/react": "^2.2.0",
     "@openrouter/ai-sdk-provider": "^2.6.0",
     "@radix-ui/react-presence": "^1.1.5",
     "ai": "^6.0.161",
