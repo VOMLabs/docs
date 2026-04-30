@@ -3,6 +3,7 @@ import type { ReactNode } from "react";
 import { appName, gitConfig } from "@/lib/shared";
 import { cn } from "@/lib/utils";
 import { DocsSidebar } from "./unified-layout-docs-sidebar";
+import { ThemeSwitch } from "fumadocs-ui/layouts/shared/slots/theme-switch";
 
 type Mode = "home" | "docs";
 
@@ -48,20 +49,21 @@ export function UnifiedLayout(props: {
               </nav>
             </div>
 
-            <div className="flex items-center gap-2">
-              {props.headerSlot}
-              <Link
-                href="/docs"
-                className={cn(
-                  "inline-flex items-center justify-center rounded-md text-sm font-medium transition-colors h-9 px-3",
-                  props.mode === "home"
-                    ? "bg-fd-primary text-fd-primary-foreground hover:bg-fd-primary/90"
-                    : "border bg-background hover:bg-fd-muted",
-                )}
-              >
-                {props.mode === "home" ? "Get Started" : "Browse Docs"}
-              </Link>
-            </div>
+             <div className="flex items-center gap-2">
+               {props.headerSlot}
+               <ThemeSwitch mode="light-dark" />
+               <Link
+                 href="/docs"
+                 className={cn(
+                   "inline-flex items-center justify-center rounded-md text-sm font-medium transition-colors h-9 px-3",
+                   props.mode === "home"
+                     ? "bg-fd-primary text-fd-primary-foreground hover:bg-fd-primary/90"
+                     : "border bg-background hover:bg-fd-muted",
+                 )}
+               >
+                 {props.mode === "home" ? "Get Started" : "Browse Docs"}
+               </Link>
+             </div>
           </div>
         </div>
       </header>
