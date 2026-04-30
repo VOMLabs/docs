@@ -3,7 +3,10 @@ import type { ReactNode } from "react";
 import { appName, gitConfig } from "@/lib/shared";
 import { cn } from "@/lib/utils";
 import { DocsSidebar } from "./unified-layout-docs-sidebar";
-import { ThemeSwitch } from "fumadocs-ui/layouts/shared/slots/theme-switch";
+import { AnimatedThemeToggler } from "./theme-switch-animated";
+import { DotPattern } from "./dot-pattern";
+import { GitHubTotalStars } from "./github-total-stars";
+import { DockDemo } from "./dock-demo";
 
 type Mode = "home" | "docs";
 
@@ -50,8 +53,9 @@ export function UnifiedLayout(props: {
             </div>
 
              <div className="flex items-center gap-2">
+               <GitHubTotalStars userOrOrg={gitConfig.user} type="org" />
                {props.headerSlot}
-               <ThemeSwitch mode="light-dark" />
+               <AnimatedThemeToggler />
                <Link
                  href="/docs"
                  className={cn(
@@ -69,8 +73,9 @@ export function UnifiedLayout(props: {
       </header>
 
       {props.mode === "home" ? (
-        <main className="flex-1">
-          <div className="mx-auto w-full max-w-6xl px-4">
+        <main className="relative flex-1">
+          <DotPattern glow className="absolute inset-0 opacity-50" />
+          <div className="relative z-10 mx-auto w-full max-w-6xl px-4">
             <div className="py-14 md:py-20">
               <div className="mx-auto max-w-2xl text-center">
                 <div className="inline-flex items-center gap-2 rounded-full border bg-background px-3 py-1 text-xs text-fd-muted-foreground">
@@ -82,7 +87,7 @@ export function UnifiedLayout(props: {
                 </h1>
                 <p className="mt-5 text-base md:text-lg text-fd-muted-foreground">
                   We mostly build Minecraft plugins and tools for our own use,
-                  but also release things for the public! Even stuff we don’t use
+                  but also release things for the public! Even stuff we don't use
                   ourselves.
                 </p>
 
@@ -183,6 +188,10 @@ export function UnifiedLayout(props: {
                     </div>
                   </div>
                 </div>
+              </div>
+
+              <div className="mt-8 flex justify-center">
+                <DockDemo />
               </div>
 
               {props.children}

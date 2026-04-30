@@ -11,8 +11,8 @@ export default function Layout({ children }: LayoutProps<'/'>) {
   return (
     <html lang="en" className={inter.className} suppressHydrationWarning>
       <body className="flex flex-col min-h-screen">
-        <RootProvider theme={{ defaultTheme: 'system', forcedTheme: undefined }}>
-          <ThemeKeyboardShortcut />
+        <ThemeKeyboardShortcut />
+        <RootProvider>
           {children}
         </RootProvider>
       </body>
