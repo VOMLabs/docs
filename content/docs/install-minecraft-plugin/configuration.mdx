@@ -1,0 +1,30 @@
+---
+title: Configuration
+description: Configure your plugin after installation
+---
+
+After first launch, plugins typically create a config folder with settings.
+
+**Example for CraftGuard:**
+
+```
+plugins/
+└── CraftGuard/
+    ├── config.yml      # Main settings
+    ├── locales/        # Language files
+    └── worlds.yml      # World data
+```
+
+## Editing Configs
+
+1. Open the config file in a text editor
+2. Make your changes and save
+3. Reload the plugin or restart the server (depending on the plugin)
+
+```yaml
+# Example: config.yml
+settings:
+  enabled: true
+  language: en-us
+  default-state: true
+```

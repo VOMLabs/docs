@@ -1,0 +1,40 @@
+---
+title: Installation
+description: Download, install, and verify your plugin
+---
+
+## Step 1: Download the Plugin
+
+Plugins can be downloaded from:
+
+- [Modrinth](https://modrinth.com/plugins) — Most popular plugin repository
+- [SpigotMC](https://spigotmc.org/resources/) — Alternative marketplace
+- GitHub — For open-source plugins
+
+**Example**: Download CraftGuard from [modrinth.com/plugin/craftguard](https://modrinth.com/plugin/craftguard)
+
+## Step 2: Install to Your Server
+
+1. Stop your server cleanly using `/stop` or the stop button
+2. Navigate to your server's `plugins/` folder
+3. Drop the `.jar` file into the folder
+4. Start your server
+
+```bash
+# Example folder structure
+/server
+  ├── craftguard-x.x.x.jar     # Plugin file
+  ├── plugins/                 # Put .jar files here
+  ├── paper.jar
+  └── server.properties
+```
+
+## Step 3: Verify Installation
+
+Check the console output when your server starts. Most plugins print a message like:
+
+```
+[Server]/[INFO] [CraftGuard] Enabling CraftGuard vX.X.X
+```
+
+You can also run `/pl` in-game to see loaded plugins.

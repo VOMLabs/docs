@@ -1,29 +1,7 @@
 import { type InferPageType, loader } from "fumadocs-core/source";
 import { lucideIconsPlugin } from "fumadocs-core/source/lucide-icons";
-import { server } from "fumadocs-mdx/runtime/server";
-import type { InternalTypeConfig } from "fumadocs-mdx/runtime/types";
-import type * as Config from "../source.config";
+import { docs } from "../.source/server";
 import { docsContentRoute, docsImageRoute, docsRoute } from "./shared";
-
-const create = server<
-  typeof Config,
-  InternalTypeConfig & {
-    DocData: {
-      docs: Record<string, never>;
-    };
-  }
->();
-
-const docs = await create.docs(
-  "docs",
-  "content/docs",
-  {},
-  {
-    "index.mdx": () => import("../content/docs/index.mdx?collection=docs"),
-    "install-minecraft-plugin.mdx": () =>
-      import("../content/docs/install-minecraft-plugin.mdx?collection=docs"),
-  },
-);
 
 // See https://fumadocs.dev/docs/headless/source-api for more info
 export const source = loader({
