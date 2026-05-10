@@ -9,4 +9,3 @@ declare module "*.mdx?collection=docs" {
   export const _markdown: string | undefined;
   export const _mdast: string | undefined;
 }
-

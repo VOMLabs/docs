@@ -1,8 +1,8 @@
-import { createOpenRouter } from "@openrouter/ai-sdk-provider";
-import { createGoogleGenerativeAI } from "@ai-sdk/google";
-import { createOpenAI } from "@ai-sdk/openai";
 import { createAnthropic } from "@ai-sdk/anthropic";
 import { createDeepSeek } from "@ai-sdk/deepseek";
+import { createGoogleGenerativeAI } from "@ai-sdk/google";
+import { createOpenAI } from "@ai-sdk/openai";
+import { createOpenRouter } from "@openrouter/ai-sdk-provider";
 import {
   convertToModelMessages,
   stepCountIs,
@@ -10,9 +10,9 @@ import {
   tool,
   type UIMessage,
 } from "ai";
+import { Document, type DocumentData } from "flexsearch";
 import { z } from "zod";
 import { source } from "@/lib/source";
-import { Document, type DocumentData } from "flexsearch";
 
 interface CustomDocument extends DocumentData {
   url: string;
@@ -31,7 +31,14 @@ export type ChatUIMessage = UIMessage<
   }
 >;
 
-export type AIProvider = "openrouter" | "google" | "openai" | "anthropic" | "deepseek" | "ollama" | "lmstudio";
+export type AIProvider =
+  | "openrouter"
+  | "google"
+  | "openai"
+  | "anthropic"
+  | "deepseek"
+  | "ollama"
+  | "lmstudio";
 
 const providerConfigs: Record<AIProvider, { model: string; apiKey: string }> = {
   openrouter: {
@@ -132,7 +139,8 @@ const deepseekApiKeys = (process.env.DEEPSEEK_API_KEY ?? "")
   .map((k) => k.trim())
   .filter(Boolean);
 const ollamaBaseUrl = process.env.OLLAMA_BASE_URL ?? "http://localhost:11434";
-const lmstudioBaseUrl = process.env.LMSTUDIO_BASE_URL ?? "http://localhost:1234/v1";
+const lmstudioBaseUrl =
+  process.env.LMSTUDIO_BASE_URL ?? "http://localhost:1234/v1";
 
 async function createOpenRouterWithFallback(index = 0) {
   return createOpenRouter({
@@ -197,7 +205,10 @@ export async function GET() {
   return Response.json({ providers });
 }
 
-async function getModelWithFallback(providerType: AIProvider, apiKeys: string[]) {
+async function getModelWithFallback(
+  providerType: AIProvider,
+  apiKeys: string[],
+) {
   const config = providerConfigs[providerType];
   const modelId = config.model;
 
@@ -218,11 +229,11 @@ async function getModelWithFallback(providerType: AIProvider, apiKeys: string[])
   if (apiKeys.length === 0) {
     throw new Error(`No API keys configured for ${providerType}`);
   }
-  
+
   for (let i = 0; i < apiKeys.length; i++) {
     const apiKey = apiKeys[i];
     if (!apiKey) continue;
-    
+
     try {
       const model =
         providerType === "openrouter"
@@ -236,7 +247,9 @@ async function getModelWithFallback(providerType: AIProvider, apiKeys: string[])
                 : (await createDeepSeekWithFallback(i)).chat(modelId);
       return model;
     } catch (err) {
-      console.log(`API key ${i + 1} failed for ${providerType}, trying next...`);
+      console.log(
+        `API key ${i + 1} failed for ${providerType}, trying next...`,
+      );
       if (i === apiKeys.length - 1) {
         throw err;
       }
@@ -269,7 +282,7 @@ export async function POST(req: Request, _ctx: RouteContext<"/api/chat">) {
   }
   console.log("Provider:", providerType, "Available keys:", apiKeys.length);
 
-    try {
+  try {
     const model = await getModelWithFallback(providerType, apiKeys);
     const result = streamText({
       model,
@@ -279,15 +292,18 @@ export async function POST(req: Request, _ctx: RouteContext<"/api/chat">) {
       },
       messages: [
         { role: "system", content: systemPrompt },
-        ...(await convertToModelMessages<ChatUIMessage>(reqJson.messages ?? [], {
-          convertDataPart(part) {
-            if (part.type === "data-client")
-              return {
-                type: "text",
-                text: `[Client Context: ${JSON.stringify(part.data)}]`,
-              };
+        ...(await convertToModelMessages<ChatUIMessage>(
+          reqJson.messages ?? [],
+          {
+            convertDataPart(part) {
+              if (part.type === "data-client")
+                return {
+                  type: "text",
+                  text: `[Client Context: ${JSON.stringify(part.data)}]`,
+                };
+            },
           },
-        })),
+        )),
       ],
       toolChoice: "auto",
     });
@@ -296,8 +312,10 @@ export async function POST(req: Request, _ctx: RouteContext<"/api/chat">) {
     console.error("Chat error:", e);
     const err = e as { message?: string; name?: string };
     return Response.json(
-      { error: { name: err.name ?? "Error", message: err.message ?? String(e) } },
-      { status: 500 }
+      {
+        error: { name: err.name ?? "Error", message: err.message ?? String(e) },
+      },
+      { status: 500 },
     );
   }
 }

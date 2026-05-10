@@ -1,33 +1,13 @@
 "use client";
 
-import { useEffect } from "react";
 import { useTheme } from "next-themes";
-import { Moon, Sun } from "lucide-react";
+import { useCallback, useEffect } from "react";
 import { flushSync } from "react-dom";
 
 export function ThemeKeyboardShortcut() {
   const { theme, setTheme } = useTheme();
 
-  useEffect(() => {
-    const handleKeyDown = (e: KeyboardEvent) => {
-      if (
-        e.key === "d" &&
-        !e.ctrlKey &&
-        !e.metaKey &&
-        !e.altKey &&
-        !(e.target instanceof HTMLInputElement) &&
-        !(e.target instanceof HTMLTextAreaElement)
-      ) {
-        e.preventDefault();
-        toggleWithAnimation();
-      }
-    };
-
-    window.addEventListener("keydown", handleKeyDown);
-    return () => window.removeEventListener("keydown", handleKeyDown);
-  }, [theme]);
-
-  const toggleWithAnimation = () => {
+  const toggleWithAnimation = useCallback(() => {
     const newTheme = theme === "dark" ? "light" : "dark";
 
     if (typeof document.startViewTransition !== "function") {
@@ -41,7 +21,7 @@ export function ThemeKeyboardShortcut() {
     const y = viewportHeight / 2;
     const maxRadius = Math.hypot(
       Math.max(x, viewportWidth - x),
-      Math.max(y, viewportHeight - y)
+      Math.max(y, viewportHeight - y),
     );
 
     const root = document.documentElement;
@@ -76,10 +56,29 @@ export function ThemeKeyboardShortcut() {
           easing: "ease-in-out",
           fill: "forwards",
           pseudoElement: "::view-transition-new(root)",
-        }
+        },
       );
     });
-  };
+  }, [setTheme, theme]);
+
+  useEffect(() => {
+    const handleKeyDown = (e: KeyboardEvent) => {
+      if (
+        e.key === "d" &&
+        !e.ctrlKey &&
+        !e.metaKey &&
+        !e.altKey &&
+        !(e.target instanceof HTMLInputElement) &&
+        !(e.target instanceof HTMLTextAreaElement)
+      ) {
+        e.preventDefault();
+        toggleWithAnimation();
+      }
+    };
+
+    window.addEventListener("keydown", handleKeyDown);
+    return () => window.removeEventListener("keydown", handleKeyDown);
+  }, [toggleWithAnimation]);
 
   return null;
 }

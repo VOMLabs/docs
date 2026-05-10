@@ -1,7 +1,7 @@
 "use client";
 
-import { useCallback, useEffect, useRef, useState } from "react";
 import { Moon, Sun } from "lucide-react";
+import { useCallback, useEffect, useRef, useState } from "react";
 import { flushSync } from "react-dom";
 
 import { cn } from "@/lib/utils";
@@ -25,7 +25,7 @@ interface AnimatedThemeTogglerProps
 function polygonCollapsed(cx: number, cy: number, vertexCount: number): string {
   const pairs = Array.from(
     { length: vertexCount },
-    () => `${cx}px ${cy}px`
+    () => `${cx}px ${cy}px`,
   ).join(", ");
   return `polygon(${pairs})`;
 }
@@ -36,7 +36,7 @@ function getThemeTransitionClipPaths(
   cy: number,
   maxRadius: number,
   viewportWidth: number,
-  viewportHeight: number
+  viewportHeight: number,
 ): [string, string] {
   switch (variant) {
     case "circle":
@@ -81,9 +81,7 @@ function getThemeTransitionClipPaths(
       const verts: string[] = [];
       for (let i = 0; i < 6; i++) {
         const a = -Math.PI / 2 + (i * Math.PI) / 3;
-        verts.push(
-          `${cx + R * Math.cos(a)}px ${cy + R * Math.sin(a)}px`
-        );
+        verts.push(`${cx + R * Math.cos(a)}px ${cy + R * Math.sin(a)}px`);
       }
       return [polygonCollapsed(cx, cy, 6), `polygon(${verts.join(", ")})`];
     }
@@ -106,11 +104,11 @@ function getThemeTransitionClipPaths(
         for (let i = 0; i < 5; i++) {
           const outerA = -Math.PI / 2 + (i * 2 * Math.PI) / 5;
           verts.push(
-            `${cx + radius * Math.cos(outerA)}px ${cy + radius * Math.sin(outerA)}px`
+            `${cx + radius * Math.cos(outerA)}px ${cy + radius * Math.sin(outerA)}px`,
           );
           const innerA = outerA + Math.PI / 5;
           verts.push(
-            `${cx + radius * innerRatio * Math.cos(innerA)}px ${cy + radius * innerRatio * Math.sin(innerA)}px`
+            `${cx + radius * innerRatio * Math.cos(innerA)}px ${cy + radius * innerRatio * Math.sin(innerA)}px`,
           );
         }
         return `polygon(${verts.join(", ")})`;
@@ -157,10 +155,8 @@ export const AnimatedThemeToggler = ({
     const button = buttonRef.current;
     if (!button) return;
 
-    const viewportWidth =
-      window.visualViewport?.width ?? window.innerWidth;
-    const viewportHeight =
-      window.visualViewport?.height ?? window.innerHeight;
+    const viewportWidth = window.visualViewport?.width ?? window.innerWidth;
+    const viewportHeight = window.visualViewport?.height ?? window.innerHeight;
 
     let x: number;
     let y: number;
@@ -175,7 +171,7 @@ export const AnimatedThemeToggler = ({
 
     const maxRadius = Math.hypot(
       Math.max(x, viewportWidth - x),
-      Math.max(y, viewportHeight - y)
+      Math.max(y, viewportHeight - y),
     );
 
     const applyTheme = () => {
@@ -194,7 +190,7 @@ export const AnimatedThemeToggler = ({
     root.dataset.magicuiThemeVt = "active";
     root.style.setProperty(
       "--magicui-theme-toggle-vt-duration",
-      `${duration}ms`
+      `${duration}ms`,
     );
     const cleanup = () => {
       delete root.dataset.magicuiThemeVt;
@@ -218,7 +214,7 @@ export const AnimatedThemeToggler = ({
         y,
         maxRadius,
         viewportWidth,
-        viewportHeight
+        viewportHeight,
       );
       ready.then(() => {
         document.documentElement.animate(
@@ -230,7 +226,7 @@ export const AnimatedThemeToggler = ({
             easing: shape === "star" ? "linear" : "ease-in-out",
             fill: "forwards",
             pseudoElement: "::view-transition-new(root)",
-          }
+          },
         );
       });
     }
@@ -243,7 +239,7 @@ export const AnimatedThemeToggler = ({
       onClick={toggleTheme}
       className={cn(
         "inline-flex h-8 w-8 items-center justify-center rounded-md border border-input bg-background text-foreground transition-colors hover:bg-accent hover:text-accent-foreground",
-        className
+        className,
       )}
       aria-label="Toggle theme"
       {...props}

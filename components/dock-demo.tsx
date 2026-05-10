@@ -1,7 +1,6 @@
 "use client";
 
-import React from "react";
-import { cn } from "@/lib/utils";
+import type React from "react";
 import { Dock, DockIcon } from "@/components/ui/dock";
 
 export type IconProps = React.HTMLAttributes<SVGElement>;

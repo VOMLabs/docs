@@ -1,9 +1,13 @@
 "use client";
 
-import { MessageCircleIcon } from "lucide-react";
-import { cn } from "@/lib/cn";
 import { buttonVariants } from "fumadocs-ui/components/ui/button";
-import { AISearch, AISearchPanel, AISearchTrigger } from "@/components/ai/search";
+import { MessageCircleIcon } from "lucide-react";
+import {
+  AISearch,
+  AISearchPanel,
+  AISearchTrigger,
+} from "@/components/ai/search";
+import { cn } from "@/lib/cn";
 
 export function AISearchClient() {
   return (

@@ -1,12 +1,12 @@
 import Link from "next/link";
 import type { ReactNode } from "react";
-import { appName, gitConfig } from "@/lib/shared";
+import { appName, gitConfig, vomlabsUrl } from "@/lib/shared";
 import { cn } from "@/lib/utils";
-import { DocsSidebar } from "./unified-layout-docs-sidebar";
-import { AnimatedThemeToggler } from "./theme-switch-animated";
+import { DockDemo } from "./dock-demo";
 import { DotPattern } from "./dot-pattern";
 import { GitHubTotalStars } from "./github-total-stars";
-import { DockDemo } from "./dock-demo";
+import { AnimatedThemeToggler } from "./theme-switch-animated";
+import { DocsSidebar } from "./unified-layout-docs-sidebar";
 
 type Mode = "home" | "docs";
 
@@ -14,7 +14,6 @@ export function UnifiedLayout(props: {
   mode: Mode;
   children: ReactNode;
   tree?: unknown;
-  headerSlot?: ReactNode;
 }) {
   const githubUrl = `https://github.com/${gitConfig.user}/${gitConfig.repo}`;
 
@@ -42,6 +41,14 @@ export function UnifiedLayout(props: {
                   Docs
                 </Link>
                 <a
+                  href={vomlabsUrl}
+                  target="_blank"
+                  rel="noreferrer"
+                  className="rounded-md px-2 py-1 hover:text-foreground hover:bg-fd-muted transition-colors"
+                >
+                  VOMLabs.com
+                </a>
+                <a
                   href={githubUrl}
                   target="_blank"
                   rel="noreferrer"
@@ -52,22 +59,21 @@ export function UnifiedLayout(props: {
               </nav>
             </div>
 
-             <div className="flex items-center gap-2">
-               <GitHubTotalStars userOrOrg={gitConfig.user} type="org" />
-               {props.headerSlot}
-               <AnimatedThemeToggler />
-               <Link
-                 href="/docs"
-                 className={cn(
-                   "inline-flex items-center justify-center rounded-md text-sm font-medium transition-colors h-9 px-3",
-                   props.mode === "home"
-                     ? "bg-fd-primary text-fd-primary-foreground hover:bg-fd-primary/90"
-                     : "border bg-background hover:bg-fd-muted",
-                 )}
-               >
-                 {props.mode === "home" ? "Get Started" : "Browse Docs"}
-               </Link>
-             </div>
+            <div className="flex items-center gap-2">
+              <GitHubTotalStars userOrOrg={gitConfig.user} type="org" />
+              <AnimatedThemeToggler />
+              <Link
+                href="/docs"
+                className={cn(
+                  "inline-flex items-center justify-center rounded-md text-sm font-medium transition-colors h-9 px-3",
+                  props.mode === "home"
+                    ? "bg-fd-primary text-fd-primary-foreground hover:bg-fd-primary/90"
+                    : "border bg-background hover:bg-fd-muted",
+                )}
+              >
+                {props.mode === "home" ? "Get Started" : "Browse Docs"}
+              </Link>
+            </div>
           </div>
         </div>
       </header>
@@ -87,8 +93,8 @@ export function UnifiedLayout(props: {
                 </h1>
                 <p className="mt-5 text-base md:text-lg text-fd-muted-foreground">
                   We mostly build Minecraft plugins and tools for our own use,
-                  but also release things for the public! Even stuff we don't use
-                  ourselves.
+                  but also release things for the public! Even stuff we don't
+                  use ourselves.
                 </p>
 
                 <div className="mt-8 flex flex-col sm:flex-row items-center justify-center gap-3">
@@ -98,6 +104,14 @@ export function UnifiedLayout(props: {
                   >
                     Explore documentation
                   </Link>
+                  <a
+                    href={vomlabsUrl}
+                    target="_blank"
+                    rel="noreferrer"
+                    className="inline-flex w-full sm:w-auto items-center justify-center rounded-md text-sm font-medium transition-colors border bg-background hover:bg-fd-muted h-10 px-6"
+                  >
+                    VOMLabs.com
+                  </a>
                   <a
                     href={githubUrl}
                     target="_blank"
@@ -257,6 +271,14 @@ export function UnifiedLayout(props: {
               >
                 Docs
               </Link>
+              <a
+                href={vomlabsUrl}
+                target="_blank"
+                rel="noreferrer"
+                className="rounded-md px-2 py-1 hover:text-foreground hover:bg-fd-muted transition-colors"
+              >
+                VOMLabs.com
+              </a>
               <a
                 href={githubUrl}
                 target="_blank"

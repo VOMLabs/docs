@@ -2,8 +2,8 @@ import { type InferPageType, loader } from "fumadocs-core/source";
 import { lucideIconsPlugin } from "fumadocs-core/source/lucide-icons";
 import { server } from "fumadocs-mdx/runtime/server";
 import type { InternalTypeConfig } from "fumadocs-mdx/runtime/types";
-import { docsContentRoute, docsImageRoute, docsRoute } from "./shared";
 import type * as Config from "../source.config";
+import { docsContentRoute, docsImageRoute, docsRoute } from "./shared";
 
 const create = server<
   typeof Config,
@@ -33,20 +33,20 @@ export const source = loader({
 });
 
 export function getPageImage(page: InferPageType<typeof source>) {
-  const segments = [...page.slugs, 'image.png'];
+  const segments = [...page.slugs, "image.png"];
 
   return {
     segments,
-    url: `${docsImageRoute}/${segments.join('/')}`,
+    url: `${docsImageRoute}/${segments.join("/")}`,
   };
 }
 
 export function getPageMarkdownUrl(page: InferPageType<typeof source>) {
-  const segments = [...page.slugs, 'content.md'];
+  const segments = [...page.slugs, "content.md"];
 
   return {
     segments,
-    url: `${docsContentRoute}/${segments.join('/')}`,
+    url: `${docsContentRoute}/${segments.join("/")}`,
   };
 }
 
@@ -56,7 +56,8 @@ export async function getLLMText(page: InferPageType<typeof source>) {
     getText?: (type: "raw" | "processed") => Promise<string>;
   };
 
-  if (typeof data.getText !== "function") return `# ${data.title} (${page.url})`;
+  if (typeof data.getText !== "function")
+    return `# ${data.title} (${page.url})`;
 
   const processed = await data.getText("processed");
 

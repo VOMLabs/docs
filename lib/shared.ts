@@ -1,4 +1,5 @@
 export const appName = "VOMLabs";
+export const vomlabsUrl = "https://www.vomlabs.com";
 export const docsRoute = "/docs";
 export const docsImageRoute = "/og/docs";
 export const docsContentRoute = "/llms.mdx/docs";
@@ -17,5 +18,5 @@ export const enableAI = availableProviders.length > 0;
 export const gitConfig = {
   user: "VOMLabs",
   repo: "docs",
-  branch: "main",
+  branch: "master",
 };

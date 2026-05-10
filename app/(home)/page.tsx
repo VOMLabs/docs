@@ -20,12 +20,21 @@ export default function HomePage() {
             >
               Install Minecraft plugin
             </a>
+            <a
+              href="https://www.vomlabs.com"
+              target="_blank"
+              rel="noreferrer"
+              className="rounded-md border px-3 py-2 hover:bg-fd-muted transition-colors"
+            >
+              VOMLabs.com
+            </a>
           </div>
         </div>
         <div className="md:col-span-8 p-6">
           <div className="text-sm font-medium">What we do</div>
           <p className="mt-2 text-sm text-fd-muted-foreground">
-            We make and release tools like Minecraft plugins we use ourselves, but also share projects built just for the public.
+            We make and release tools like Minecraft plugins we use ourselves,
+            but also share projects built just for the public.
           </p>
         </div>
       </div>

@@ -1,12 +1,12 @@
 "use client";
 
-import { useState, useEffect } from "react";
+import { useEffect, useState } from "react";
 import { Button } from "@/components/ui/button";
 import {
   Tooltip,
   TooltipContent,
-  TooltipTrigger,
   TooltipProvider,
+  TooltipTrigger,
 } from "@/components/ui/tooltip";
 import { cn } from "@/lib/utils";
 
@@ -34,7 +34,7 @@ export function GitHubTotalStars({
     async function fetchTotalStars() {
       setLoading(true);
       setError(false);
-      let allRepos: any[] = [];
+      let allRepos: { stargazers_count?: number }[] = [];
       let page = 1;
       const perPage = 100;
 
@@ -62,7 +62,7 @@ export function GitHubTotalStars({
 
         const total = allRepos.reduce(
           (sum, repo) => sum + (repo.stargazers_count || 0),
-          0
+          0,
         );
         setTotalStars(total);
       } catch (err) {
@@ -86,14 +86,14 @@ export function GitHubTotalStars({
         .format(totalStars)
         .toLowerCase()
     : loading
-    ? "..."
-    : "n/a";
+      ? "..."
+      : "n/a";
 
   const tooltipText = error
     ? "Failed to load star count"
     : totalStars
-    ? `${new Intl.NumberFormat(locales).format(totalStars)} stars on ${userOrOrg}`
-    : "Loading...";
+      ? `${new Intl.NumberFormat(locales).format(totalStars)} stars on ${userOrOrg}`
+      : "Loading...";
 
   return (
     <TooltipProvider>
@@ -127,9 +127,7 @@ export function GitHubTotalStars({
           </Button>
         </TooltipTrigger>
 
-        <TooltipContent className="font-sans">
-          {tooltipText}
-        </TooltipContent>
+        <TooltipContent className="font-sans">{tooltipText}</TooltipContent>
       </Tooltip>
     </TooltipProvider>
   );

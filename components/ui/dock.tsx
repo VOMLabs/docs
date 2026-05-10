@@ -1,15 +1,15 @@
 "use client";
 
-import React, { PropsWithChildren, useRef } from "react";
 import { cva, type VariantProps } from "class-variance-authority";
+import type { MotionProps } from "motion/react";
 import {
+  type MotionValue,
   motion,
-  MotionValue,
   useMotionValue,
   useSpring,
   useTransform,
 } from "motion/react";
-import type { MotionProps } from "motion/react";
+import React, { type PropsWithChildren, useRef } from "react";
 
 import { cn } from "@/lib/utils";
 
@@ -29,7 +29,7 @@ const DEFAULT_DISTANCE = 140;
 const DEFAULT_DISABLE_MAGNIFICATION = false;
 
 const dockVariants = cva(
-  "supports-backdrop-blur:bg-white/10 supports-backdrop-blur:dark:bg-black/10 mx-auto mt-8 flex h-[58px] w-max items-center justify-center gap-2 rounded-2xl border p-2 backdrop-blur-md"
+  "supports-backdrop-blur:bg-white/10 supports-backdrop-blur:dark:bg-black/10 mx-auto mt-8 flex h-[58px] w-max items-center justify-center gap-2 rounded-2xl border p-2 backdrop-blur-md",
 );
 
 const Dock = React.forwardRef<HTMLDivElement, DockProps>(
@@ -44,7 +44,7 @@ const Dock = React.forwardRef<HTMLDivElement, DockProps>(
       direction = "middle",
       ...props
     },
-    ref
+    ref,
   ) => {
     const mouseX = useMotionValue(Infinity);
 
@@ -82,15 +82,13 @@ const Dock = React.forwardRef<HTMLDivElement, DockProps>(
         {renderChildren()}
       </motion.div>
     );
-  }
+  },
 );
 
 Dock.displayName = "Dock";
 
-export interface DockIconProps extends Omit<
-  MotionProps & React.HTMLAttributes<HTMLDivElement>,
-  "children"
-> {
+export interface DockIconProps
+  extends Omit<MotionProps & React.HTMLAttributes<HTMLDivElement>, "children"> {
   size?: number;
   magnification?: number;
   disableMagnification?: boolean;
@@ -125,7 +123,7 @@ const DockIcon = ({
   const sizeTransform = useTransform(
     distanceCalc,
     [-distance, 0, distance],
-    [size, targetSize, size]
+    [size, targetSize, size],
   );
 
   const scaleSize = useSpring(sizeTransform, {
@@ -140,8 +138,9 @@ const DockIcon = ({
       style={{ width: scaleSize, height: scaleSize, padding }}
       className={cn(
         "flex aspect-square cursor-pointer items-center justify-center rounded-full",
-        disableMagnification && "hover:bg-muted-foreground/20 transition-colors",
-        className
+        disableMagnification &&
+          "hover:bg-muted-foreground/20 transition-colors",
+        className,
       )}
       {...props}
     >

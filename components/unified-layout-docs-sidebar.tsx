@@ -36,7 +36,9 @@ function NavItem({
 }) {
   const href = getNodeHref(node);
   const label = getNodeLabel(node);
-  const isActive = href ? normalizePath(pathname) === normalizePath(href) : false;
+  const isActive = href
+    ? normalizePath(pathname) === normalizePath(href)
+    : false;
 
   const hasChildren = Array.isArray(node.children) && node.children.length > 0;
   const children = hasChildren ? node.children : undefined;
@@ -99,4 +101,3 @@ export function DocsSidebar({ tree }: { tree: unknown }) {
     </div>
   );
 }
-

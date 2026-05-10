@@ -1,14 +1,14 @@
 "use client";
 
-import { useCallback, useEffect, useState } from "react";
-import { Sun, Moon, Airplay } from "lucide-react";
+import { Airplay, Moon, Sun } from "lucide-react";
 import { useTheme } from "next-themes";
+import { useCallback, useEffect, useState } from "react";
 import { flushSync } from "react-dom";
 import { cn } from "@/lib/utils";
 
 const itemVariants = cn(
   "size-6.5 p-1.5 text-fd-muted-foreground",
-  "data-[active=true]:bg-fd-accent data-[active=true]:text-fd-accent-foreground"
+  "data-[active=true]:bg-fd-accent data-[active=true]:text-fd-accent-foreground",
 );
 
 const full = [
@@ -18,7 +18,7 @@ const full = [
 ] as const;
 
 export function ThemeSwitchAnimated() {
-  const { setTheme, theme, resolvedTheme } = useTheme();
+  const { setTheme, resolvedTheme } = useTheme();
   const [mounted, setMounted] = useState(false);
 
   useEffect(() => {
@@ -42,20 +42,18 @@ export function ThemeSwitchAnimated() {
       }
 
       const viewportWidth = window.visualViewport?.width ?? window.innerWidth;
-      const viewportHeight = window.visualViewport?.height ?? window.innerHeight;
+      const viewportHeight =
+        window.visualViewport?.height ?? window.innerHeight;
       const x = viewportWidth / 2;
       const y = viewportHeight / 2;
       const maxRadius = Math.hypot(
         Math.max(x, viewportWidth - x),
-        Math.max(y, viewportHeight - y)
+        Math.max(y, viewportHeight - y),
       );
 
       const root = document.documentElement;
       root.dataset.magicuiThemeVt = "active";
-      root.style.setProperty(
-        "--magicui-theme-toggle-vt-duration",
-        "400ms"
-      );
+      root.style.setProperty("--magicui-theme-toggle-vt-duration", "400ms");
 
       const transition = document.startViewTransition(() => {
         flushSync(() => setTheme(newTheme));
@@ -85,11 +83,11 @@ export function ThemeSwitchAnimated() {
             easing: "ease-in-out",
             fill: "forwards",
             pseudoElement: "::view-transition-new(root)",
-          }
+          },
         );
       });
     },
-    [setTheme]
+    [setTheme],
   );
 
   if (!mounted) return null;
