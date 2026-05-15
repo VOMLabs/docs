@@ -141,6 +141,27 @@ html {
   scrollbar-gutter: stable;
 }
 
+/* Sidebar — thinner scrollbar track, thumb widens on hover */
+#nd-sidebar [data-radix-scroll-area-viewport] {
+  scrollbar-width: thin;
+}
+
+#nd-sidebar [data-radix-scroll-area-scrollbar] {
+  transition: width 150ms;
+}
+
+#nd-sidebar [data-radix-scroll-area-scrollbar]:hover {
+  width: 10px;
+}
+
+#nd-sidebar [data-radix-scroll-area-scrollbar] > div {
+  transition: background-color 150ms;
+}
+
+#nd-sidebar [data-radix-scroll-area-scrollbar]:hover > div {
+  background-color: var(--color-fd-muted-foreground);
+}
+
 html > body[data-scroll-locked] {
   margin-right: 0px;
   --removed-body-scroll-bar-size: 0px;
